@@ -13,3 +13,7 @@ $ fastapi dev src/main.py
 
 - clone the repository
 - run `pre-commit install` for automatic formatting / linting on commit
+
+# To run tests
+
+`pytest` from the main directory
