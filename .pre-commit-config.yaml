@@ -1,0 +1,22 @@
+repos:
+  - repo: "https://github.com/floatingpurr/sync_with_poetry"
+    rev: 1.1.0
+    hooks:
+      - id: sync_with_poetry
+  - repo: "https://github.com/mxr/sync-pre-commit-deps"
+    rev: v0.0.1
+    hooks:
+      - id: sync-pre-commit-deps
+  - repo: "https://github.com/psf/black"
+    rev: 24.8.0
+    hooks:
+      - id: black
+  - repo: "https://github.com/PyCQA/isort"
+    rev: 5.13.2
+    hooks:
+      - id: isort
+  - repo: "https://github.com/astral-sh/ruff-pre-commit"
+    rev: v0.6.3
+    hooks:
+      - id: ruff
+        args: [--fix]
