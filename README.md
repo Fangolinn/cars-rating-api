@@ -1,3 +1,6 @@
+#### TODO
+- possibly split endpoints an tests into more specialized files
+
 # To run locally
 
 Clone the repo and then:
