@@ -1,5 +1,6 @@
-#### TODO
-- possibly split endpoints an tests into more specialized files
+# cars-rating-api
+
+This was a recruitment assignment for a Junior Developer position.
 
 # To run locally
 
@@ -7,7 +8,7 @@ Clone the repo and then:
 
 (change CONTAINER_NAME to the name you want to assign)
 ```bash
-$ docker run --name <CONTAINER_NAME> -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres  # at this point in development the password doesn't matter, I will set an actual one later
+$ docker run --name <CONTAINER_NAME> -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres  # obviously the password should not be included here, but as this is not an actual application I'm skipping setting up secrets
 $ alembic upgrade head
 $ fastapi dev src/main.py
 ```

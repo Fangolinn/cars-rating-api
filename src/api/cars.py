@@ -7,9 +7,6 @@ from ..dependencies import get_db
 
 router = APIRouter(tags=["cars"])
 
-# TODO move CRUD operations into a separate file
-# skipped for now for easier at-glance readability
-
 
 @router.post("", status_code=status.HTTP_201_CREATED)
 def create_car(car: schemas.CarCreate, db: Session = Depends(get_db)) -> schemas.Car:
@@ -41,19 +38,19 @@ def create_rating(
 def get_top10_rated_cars(
     db: Session = Depends(get_db),
 ) -> list[schemas.CarWithAverageRating]:
-    # TODO I think this can be cleaned up, but works
-    # what could be cleaned up: use the 'label' in order_by, avoid the need to write every column of Car in the .query() when I already use all the columns
+    average_car_rating = func.avg(models.CarRating.rating)
+
     top_cars = (
         db.query(
             models.Car.id,
             models.Car.brand,
             models.Car.model,
             models.Car.production_year,
-            func.avg(models.CarRating.rating).label("average_rating"),
+            average_car_rating.label("average_rating"),
         )
         .join(models.CarRating)
         .group_by(models.Car.id)
-        .order_by(func.avg(models.CarRating.rating).desc())
+        .order_by(average_car_rating.desc())
         .order_by(models.Car.id)
         .limit(10)
         .all()

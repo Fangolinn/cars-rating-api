@@ -5,24 +5,15 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from httpx import Response
 
-# FIXME
-# - test data in a separate file
-# - fixtures in a separate file
-# (the issue is visible in TestCreateRating 'create_test_car' fixture)
+from . import test_data
 
 
 class TestCreateCar:
-    VALID_SCHEMA: dict[str, str] = {
-        "brand": "Ford",
-        "model": "Model T",
-        "production_year": 1908,
-    }
-
     REQUIRED_FIELDS: list[str] = ["brand", "model", "production_year"]
 
     @pytest.fixture
     def test_schema(self) -> dict[str, str]:
-        return copy.deepcopy(self.VALID_SCHEMA)
+        return copy.deepcopy(test_data.CAR_SCHEMA)
 
     endpoint: str = "/cars"
 
@@ -68,19 +59,15 @@ class TestCreateCar:
 
 
 class TestCreateRating:
-    VALID_SCHEMA: dict[str, str] = {
-        "rating": 3,
-    }
-
     REQUIRED_FIELDS: list[str] = ["rating"]
 
     @pytest.fixture
     def test_schema(self) -> dict[str, str]:
-        return copy.deepcopy(self.VALID_SCHEMA)
+        return copy.deepcopy(test_data.RATING_SCHEMA)
 
     @pytest.fixture(autouse=True)
     def create_test_car(self, client: TestClient) -> None:
-        client.post("/cars", json=TestCreateCar().VALID_SCHEMA)
+        client.post("/cars", json=test_data.CAR_SCHEMA)
 
     TEST_CAR_ID: int = 1
 
@@ -173,7 +160,6 @@ class TestTop10:
 
     @pytest.fixture(autouse=True)
     def create_test_ratings(self, client: TestClient, create_test_cars: None) -> None:
-        # Assign ratings to cars
         car_ratings = {
             1: [5, 4, 5],  # Average: 4.67
             2: [5],  # Average: 5.0
